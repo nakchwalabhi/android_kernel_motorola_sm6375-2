@@ -100,16 +100,16 @@ typedef unsigned long old_sigset_t;
 #define __ARCH_HAS_SA_RESTORER
 #endif
 
-#ifndef __KERNEL__
-struct sigaction {
-	__sighandler_t sa_handler;
-	unsigned long sa_flags;
-#ifdef SA_RESTORER
-	__sigrestore_t sa_restorer;
-#endif
-	sigset_t sa_mask;		/* mask last for extensibility */
-};
-#endif
+/*
+ * NOTE: the kernel's struct sigaction is deliberately NOT defined here.
+ *
+ * These generated kernel headers are handed to userspace modules with -I,
+ * ahead of bionic's -isystem bionic/libc/kernel/uapi, so this file shadows
+ * the libc copy. Userspace takes that type from libc (bionic's
+ * bits/signal_types.h); defining it here as well makes every module that
+ * pulls in both the generated kernel headers and libc fail with
+ * "redefinition of 'sigaction'". Do not re-add it.
+ */
 
 typedef struct sigaltstack {
 	void __user *ss_sp;
