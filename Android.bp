@@ -1,6 +1,9 @@
 cc_binary_host {
     name: "unifdef",
     srcs: ["scripts/unifdef.c"],
+    // unifdef.c uses "constexpr" as an identifier, which is a reserved keyword
+    // under the default -std=gnu23 host standard. Build this tool as C11.
+    cflags: ["-std=gnu11"],
     sanitize: {
         never: true,
     },
